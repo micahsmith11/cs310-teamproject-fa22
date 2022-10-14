@@ -9,6 +9,8 @@ public class Punch {
     private Badge badge;
     private Integer id;
     private LocalDateTime originaltimestamp;
+    private LocalDateTime adjustedtimestamp;
+    private PunchAdjustmentType adjustmenttype;
     
     //Constructor For New Punches
     public Punch (int terminalid, Badge badge, EventType punchtype) {
@@ -52,5 +54,15 @@ public class Punch {
         return originaltimestamp;
     }
     
+    public String printOriginal() {
+        
+        StringBuilder s = new StringBuilder();
+        
+        s.append('#').append(badge.getId()).append(' ');
+        s.append(punchtype).append(':').append(originaltimestamp);
+        
+        return s.toString();
+    }
     
+   
 }
