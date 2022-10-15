@@ -15,6 +15,8 @@ public class Main {
 
         DAOFactory daoFactory = new DAOFactory("tas.jdbc");
         BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
+        ShiftDAO shiftDao = daoFactory.getShiftDAO();
+        //PunchDAO punchDao = daoFactory.getPunchDAO();
         
         // find badge
 

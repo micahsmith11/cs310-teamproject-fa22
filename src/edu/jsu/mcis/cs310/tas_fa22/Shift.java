@@ -4,7 +4,7 @@ import java.time.*;
 import java.util.HashMap;
 
 public class Shift {
-     private int id, roundinterval, graceperiod, dockpenalty, lunchthreshold, lunchDuration, shiftDuration;
+    private int id, roundinterval, graceperiod, dockpenalty, lunchthreshold, lunchDuration, shiftDuration;
     private String description;
     private LocalTime shiftstart, shiftstop, lunchstart, lunchstop;
 

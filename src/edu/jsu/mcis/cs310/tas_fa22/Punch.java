@@ -19,8 +19,6 @@ public class Punch {
         this.punchtype = punchtype;
         this.id = null;
         this.originaltimestamp = null;
-        
-        
     }
     
     //Constructor for Existing Punches
