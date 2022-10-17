@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.jsu.mcis.cs310.tas_fa22;
 
-/**
- *
- * @author micah
- */
+
 public class Department {
     //Instamce Field
     private int id;
     private String description;
-    private int terminalid;
+    private Integer terminalid;
     
     //Constructor for Department
     public Department (int id, String description, int terminalid) {

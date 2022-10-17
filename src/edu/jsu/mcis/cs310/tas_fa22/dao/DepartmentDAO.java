@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.jsu.mcis.cs310.tas_fa22.dao;
 
-import edu.jsu.mcis.cs310.tas_fa22.Badge;
+import edu.jsu.mcis.cs310.tas_fa22.*;
 import java.sql.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-/**
- *
- * @author micah
- */
+
+
 public class DepartmentDAO {
     
 
@@ -32,6 +24,7 @@ public class DepartmentDAO {
 
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
          try {
 
             Connection conn = daoFactory.getConnection();
@@ -50,8 +43,8 @@ public class DepartmentDAO {
                     while (rs.next()) {
 
                         String description = rs.getString("description");
-                        int terminalid = rs.setInt(terminalid);
-                        department = new department(id, description, terminalid);
+                        Integer terminalid = rs.getInt("terminalid");
+                        department = new Department(id, description, terminalid);
                         }
 
                 }
