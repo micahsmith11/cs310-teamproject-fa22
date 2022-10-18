@@ -53,13 +53,12 @@ public class Shift {
 
         StringBuilder s = new StringBuilder();
 
-        s.append('"').append(getDesciption()).append(':').append(' ');
+        s.append(getDesciption()).append(':').append(' ');
         s.append(getShiftstart()).append(' ').append('-');
         s.append(' ').append(getShiftstop()).append(' ');
         s.append('(').append(getShiftDuration()).append(' ').append("minutes").append(')').append(';');
         s.append(' ').append("Lunch:").append(' ').append(getLunchstart()).append(' ').append('-').append(' ');
-        s.append(getLunchstop()).append(' ').append('(').append(getLunchDuration()).append("minutes").append(')');
-        s.append('"');
+        s.append(getLunchstop()).append(' ').append('(').append(getLunchDuration()).append(' ').append("minutes").append(')');
 
         return s.toString();
     }
