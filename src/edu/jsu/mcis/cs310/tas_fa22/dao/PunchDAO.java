@@ -3,7 +3,7 @@ import edu.jsu.mcis.cs310.tas_fa22.*;
 import java.sql.*;
 
 public class PunchDAO {
-    private static final String QUERY_FIND = "SELECT * FROM shift WHERE id = ?";
+    private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
     
     private final DAOFactory daoFactory;
     
@@ -11,7 +11,7 @@ public class PunchDAO {
         this.daoFactory = daoFactory;
     }
     
-    public Punch find (String id){
+    public Punch find (int id){
         Punch punch = null;
         
         PreparedStatement ps = null;
@@ -23,7 +23,7 @@ public class PunchDAO {
             
             if (conn.isValid(0)) {
                 ps = conn.prepareStatement(QUERY_FIND);
-                ps.setString(1, id);
+                ps.setInt(1, id);
                 
                 boolean hasresults = ps.execute();
                 
@@ -31,12 +31,7 @@ public class PunchDAO {
                     rs = ps.getResultSet();
                     
                     while (rs.next()) {
-                        String description = rs.getString("description");
-                        String punchtype = rs.getString("punchtype");
-                        String badge = rs.getString("badge");
-                        String originaltimestamp = rs.getString("originaltimestamp");
-                        String adjustedtimestamp = rs.getString("adjustedtimestamp");
-                        String adjustmenttype = rs.getString("adjustmenttype");
+                        punch = new Punch(rs.getInt("id"), rs.getInt("terminalid"), findBadge(rs.getString("badgeid")),rs.getTimestamp("timestamp").toLocalDateTime(), EventType.values()[rs.getInt("eventtypeid")]);
                     }
                 }
             }
@@ -63,6 +58,13 @@ public class PunchDAO {
             }
         }
         return punch;
+    }
+    
+    private Badge findBadge(String id){
+        BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
+        Badge b = badgeDAO.find(id);
+        return b;        
+        
     }
     
 }    
