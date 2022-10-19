@@ -1,6 +1,9 @@
 package edu.jsu.mcis.cs310.tas_fa22;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 
 public class Punch {
     //Instance Fields
@@ -56,8 +59,11 @@ public class Punch {
         
         StringBuilder s = new StringBuilder();
         
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MM/dd/yyyy HH:mm:ss");
+        
+    
         s.append('#').append(badge.getId()).append(' ');
-        s.append(punchtype).append(':').append(originaltimestamp);
+        s.append(punchtype).append(": ").append(originaltimestamp.format(formatter).toUpperCase());
         
         return s.toString();
     }
