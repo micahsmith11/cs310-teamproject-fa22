@@ -31,7 +31,7 @@ public class Main {
     //Kenneth Jones
     //Micah Smith
     //Austin Rush
-
-    
     //Laila Hamdan
+    
+    //Completed Sprint 1 on October 21, 2022.
 }
