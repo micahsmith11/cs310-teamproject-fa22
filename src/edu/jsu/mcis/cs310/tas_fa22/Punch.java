@@ -21,7 +21,7 @@ public class Punch {
         this.badge = badge;
         this.punchtype = punchtype;
         this.id = null;
-        this.originaltimestamp = null;
+        this.originaltimestamp = LocalDateTime.now();
     }
     
     //Constructor for Existing Punches
