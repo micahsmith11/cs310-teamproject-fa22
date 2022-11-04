@@ -189,5 +189,61 @@ public class PunchAdjustTest {
         assertEquals("#ADD650A8 CLOCK OUT: TUE 09/11/2018 15:30:00 (Shift Stop)", p7.printAdjusted());
 
     }
+    
 
+    @Test
+    public void testAdjustPunchesShift1Weekday2() {
+
+        /* Get Shift Ruleset and Punch Data */
+        
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+        ShiftDAO shiftDAO = daoFactory.getShiftDAO();
+
+        Shift s1 = shiftDAO.find(1);
+
+        Punch p1 = punchDAO.find(186);
+        Punch p2 = punchDAO.find(227);
+
+        /* Adjust Punches According to Shift Rulesets */
+        
+        p1.adjust(s1);
+        p2.adjust(s1);
+
+        /* Compare Adjusted Timestamps to Expected Values */
+        
+        assertEquals("#07901755 CLOCK IN: WED 08/01/2018 06:59:00", p1.printOriginal());
+        assertEquals("#07901755 CLOCK IN: WED 08/01/2018 07:00:00 (Shift Start)", p1.printAdjusted());
+
+        assertEquals("#07901755 CLOCK OUT: WED 08/01/2018 15:33:25", p2.printOriginal());
+        assertEquals("#07901755 CLOCK OUT: WED 08/01/2018 15:30:00 (Shift Stop)", p2.printAdjusted());
+
+    }
+    
+    @Test
+    public void testAdjustPunchesShift1EarlyLunchWeekday() {
+
+        /* Get Shift Ruleset and Punch Data */
+        
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+        ShiftDAO shiftDAO = daoFactory.getShiftDAO();
+
+        Shift s3 = shiftDAO.find(3);
+
+        Punch p1 = punchDAO.find(1478);
+        Punch p2 = punchDAO.find(1474);
+
+        /* Adjust Punches According to Shift Rulesets */
+        
+        p1.adjust(s3);
+        p2.adjust(s3);
+
+        /* Compare Adjusted Timestamps to Expected Values */
+        
+        assertEquals("#4382D92D CLOCK IN: WED 08/15/2018 11:58:03", p1.printOriginal());
+        assertEquals("#4382D92D CLOCK IN: WED 08/15/2018 12:00:00 (Lunch Stop)", p1.printAdjusted());
+
+        assertEquals("#4382D92D CLOCK OUT: WED 08/15/2018 11:36:33", p2.printOriginal());
+        assertEquals("#4382D92D CLOCK OUT: WED 08/15/2018 11:30:00 (Lunch Start)", p2.printAdjusted());
+
+    }
 }
