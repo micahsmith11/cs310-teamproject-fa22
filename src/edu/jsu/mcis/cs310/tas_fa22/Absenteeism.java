@@ -25,5 +25,13 @@ public class Absenteeism {
         return percentage;
     }
    
-    
+    public String ToString() {
+        StringBuilder s = new StringBuilder();
+        
+        s.append('#').append(employee.getBadge()).append(' ');
+        s.append("Pay Period Starting ").append(payPeriodStart).append("): ");
+        s.append(percentage).append('%');
+        
+        return s.toString();
+    }
 }
