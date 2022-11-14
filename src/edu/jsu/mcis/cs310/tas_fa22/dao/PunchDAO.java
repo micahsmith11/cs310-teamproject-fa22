@@ -14,13 +14,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class PunchDAO {
 
     private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
-    private static final String QUERY_CREATE = "INSERT INTO event (terminalid, badgeid, timestamp, eventtypeid) VALUES (?, ?, ?, ?)";
-    private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ?";
-
+    private static final String QUERY_CREATE = "INSERT INTO event (terminalid, badgeid, `timestamp`, eventtypeid) VALUES (?, ?, ?, ?)";
+    private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ? ORDER BY `timestamp`";
+    private static final String QUERY_LIST_PART = "SELECT * FROM event WHERE badgeid = ?  AND `timestamp` >= ? AND `timestamp` <= ? ORDER BY `timestamp`";
+    
     private final DAOFactory daoFactory;
 
     PunchDAO(DAOFactory daoFactory) {
@@ -189,8 +191,23 @@ public class PunchDAO {
         }
         return punches;
     }
-}
+    
+    
+ public ArrayList<Punch> list(Badge badge, LocalDate begin, LocalDate end) {
+        ArrayList<Punch> punches = new ArrayList<>();
 
+        PunchDAO punchDAO = new PunchDAO(daoFactory);
+        
+        LocalDate current = begin;
+
+        do {
+            punches.addAll(punchDAO.list(badge, current));
+            current.plusDays(1);
+        } while ( !current.isAfter(end));
+
+        return punches;
+    }
+}
 class sortDates implements Comparator<Punch> {
 
     @Override

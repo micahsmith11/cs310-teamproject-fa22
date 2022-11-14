@@ -7,6 +7,7 @@ public class Shift {
     private int id, roundinterval, graceperiod, dockpenalty, lunchthreshold, lunchDuration, shiftDuration;
     private String description;
     private LocalTime shiftstart, shiftstop, lunchstart, lunchstop;
+    private LocalDate beginDate, endDate;
 
     public Shift(HashMap<String, String> map) {
         this.id = Integer.parseInt(map.get("id"));
@@ -18,6 +19,8 @@ public class Shift {
         this.dockpenalty = Integer.parseInt(map.get("dockpenalty"));
         this.lunchstart = LocalTime.parse(map.get("lunchstart"));
         this.lunchstop = LocalTime.parse(map.get("lunchstop"));
+        this.beginDate = LocalDate.parse(map.get("begin"));
+        this.endDate = LocalDate.parse(map.get("end"));
         this.lunchthreshold = Integer.parseInt(map.get("lunchthreshold"));
         this.lunchDuration = (int)Duration.between(this.lunchstart, this.lunchstop).toMinutes();
         this.shiftDuration = (int)Duration.between(this.shiftstart, this.shiftstop).toMinutes();
@@ -42,6 +45,10 @@ public class Shift {
     public LocalTime getLunchstart() {return lunchstart;}
 
     public LocalTime getLunchstop() {return lunchstop;}
+    
+    public LocalDate getBeginDate() {return beginDate;}
+    
+    public LocalDate getEndDate() {return endDate;}
 
     public int getLunchDuration() {return lunchDuration;}
 
