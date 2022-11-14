@@ -27,7 +27,7 @@ public final class DAOUtility {
         int totalWithLunch = 0;
         int lunchDuration = s.getLunchDuration();
         
-        LocalDateTime punches = null;
+        LocalDateTime punches;
         
         boolean pair = false;
         
