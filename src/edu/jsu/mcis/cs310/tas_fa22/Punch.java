@@ -279,6 +279,14 @@ public class Punch {
         return originaltimestamp;
     }
     
+    public LocalDateTime getAdjustedtimestamp() {
+        return adjustedtimestamp;
+    }
+    
+    public PunchAdjustmentType getAdjustmenttype() {
+        return adjustmenttype;
+    }
+    
     public String printOriginal() {
         
         StringBuilder s = new StringBuilder();

@@ -29,7 +29,7 @@ public class PunchDAO {
         this.daoFactory = daoFactory;
     }
 
-    // Retrieve New Punch \\
+
     public Punch find(int id) {
 
         Punch punch = null;
@@ -84,7 +84,7 @@ public class PunchDAO {
         return punch;
     }
 
-    // Insert Punch Into Database \\
+    
     public int create(Punch punch) {
 
         PreparedStatement ps = null;
