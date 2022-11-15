@@ -17,13 +17,13 @@ import org.json.simple.*;
 public final class DAOUtility {
     
         public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift s) {
-        int minutes = 0;
+        
+        int m = 0;
         int startHours = 0;
         int stopHours = 0;
         int startMinutes = 0;
         int stopMinutes = 0;
         int calculations = 0;
-        int totalMinutesWorked = 0;
         int totalWithLunch = 0;
         int lunchDuration = s.getLunchDuration();
         
@@ -31,22 +31,26 @@ public final class DAOUtility {
         
         boolean pair = false;
         
-        
-       for (Punch p : dailypunchlist){
-           if (p.getPunchtype() == PunchType.CLOCK_IN || p.getPunchtype() == PunchType.CLOCK_OUT){
-               if (p.getPunchtype() == PunchType.CLOCK_IN){
+       
+        for (Punch p : dailypunchlist){
+            if (p.getPunchtype() == EventType.CLOCK_IN || 
+                    p.getPunchtype() == EventType.CLOCK_OUT){
+                }
+                if (p.getPunchtype() == EventType.CLOCK_IN){
                    pair = false;
-               }
-                if (p.getPunchtype() == PunchType.CLOCK_OUT){
+                }
+                
+                if (p.getPunchtype() == EventType.CLOCK_OUT){
                    pair = true; 
                 }
-           }
+           
            
            if (pair == false) {
                punches = p.getAdjustedtimestamp();
                startHours = punches.getHour();
                startMinutes = punches.getMinute();
            }
+           
            else if (pair){ 
                 
                 punches = p.getAdjustedtimestamp();
@@ -57,15 +61,16 @@ public final class DAOUtility {
                 
                 if (totalWithLunch > s.getLunchthreshold()){
                     calculations = totalWithLunch - lunchDuration;
-                    totalMinutesWorked = totalMinutesWorked + calculations;
+                    m = m + calculations;
                 }
                 
                 else if (totalWithLunch <= s.getLunchthreshold()){
                     calculations = ((stopHours - startHours) * 60)
                             + (stopMinutes - startMinutes);
-                    totalMinutesWorked = totalMinutesWorked + calculations; 
+                    m = m + calculations; 
                 }
-        
-    }   
-    return totalMinutesWorked;    
+            }
+        }  
+    return m;
+    }    
 }
