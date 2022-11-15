@@ -69,3 +69,21 @@ public final class DAOUtility {
     }   
     return totalMinutesWorked;    
 }
+       }
+       public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
+       int scheduledMinutes =  s.getShiftDuration() * 5;
+       LocalTime shiftStart = s.getShiftstart();
+       LocalTime shiftStop = s.getShiftstop();
+       LocalTime lunchStop = s.getLunchstop();
+       LocalTime lunchStart = s.getLunchstart();
+       
+       double percentage = 0.25;
+       /*
+        for(int i = 0; i < punchlist.size(); i++) {
+            
+            if(punchlist.get(i). == )
+        }
+       */
+       return percentage;
+    }
+}
