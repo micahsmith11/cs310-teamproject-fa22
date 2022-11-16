@@ -81,6 +81,33 @@ public final class DAOUtility {
         }  
     return m;
     }
+        
+        public static String getPunchListAsJSON(ArrayList<Punch> dailypunchlist){
+           
+        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+        
+        for(int i = 0; i < dailypunchlist.size(); i++){
+            
+            
+            
+            HashMap<String, String> punch = new HashMap<String, String>();
+            punch.put("originaltimestamp", dailypunchlist.get(i).getOriginaltimestamp().format(DateTimeFormatter.ofPattern("E MM/dd/yyyy HH:mm:ss")).toUpperCase());
+            punch.put("badgeid", dailypunchlist.get(i).getBadge().getId());
+            punch.put("adjustedtimestamp", dailypunchlist.get(i).getAdjustedtimestamp().format(DateTimeFormatter.ofPattern("E MM/dd/yyyy HH:mm:ss")).toUpperCase());
+            punch.put("adjustmenttype", dailypunchlist.get(i).getAdjustmenttype().toString());
+            punch.put("terminalid", Integer.toString(dailypunchlist.get(i).getTerminalid()));
+            punch.put("id", Integer.toString(dailypunchlist.get(i).getId()));
+            punch.put("punchtype", dailypunchlist.get(i).getPunchtype().toString());
+            
+            
+            list.add(punch);
+            
+        }
+        
+        String json = JSONValue.toJSONString(list);
+         return json;
+    }    
+
     
        public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
        int scheduledMinutes =  s.getShiftDuration() * 5;
