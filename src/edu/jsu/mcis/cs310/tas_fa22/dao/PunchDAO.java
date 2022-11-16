@@ -21,7 +21,7 @@ public class PunchDAO {
     private static final String QUERY_FIND = "SELECT * FROM event WHERE id = ?";
     private static final String QUERY_CREATE = "INSERT INTO event (terminalid, badgeid, `timestamp`, eventtypeid) VALUES (?, ?, ?, ?)";
     private static final String QUERY_LIST = "SELECT * FROM event WHERE badgeid = ? ORDER BY `timestamp`";
-    private static final String QUERY_LIST_PART = "SELECT * FROM event WHERE badgeid = ?  AND `timestamp` >= ? AND `timestamp` <= ? ORDER BY `timestamp`";
+    private static final String QUERY_SPEC = "SELECT * FROM event WHERE badgeid = ?  AND `timestamp` >= ? AND `timestamp` <= ? ORDER BY `timestamp`";
     
     private final DAOFactory daoFactory;
 
@@ -199,15 +199,56 @@ public class PunchDAO {
         PunchDAO punchDAO = new PunchDAO(daoFactory);
         
         LocalDate current = begin;
-
-        do {
-            punches.addAll(punchDAO.list(badge, current));
-            current.plusDays(1);
-        } while ( !current.isAfter(end));
-
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            Connection conn = daoFactory.getConnection();
+            
+            if (conn.isValid(0)) {
+                ps = conn.prepareStatement(QUERY_SPEC);
+                ps.setString(1, badge.getId());
+                
+                boolean hasresults = ps.execute();
+                
+                if (hasresults) {
+                    rs = ps.getResultSet();
+                    
+                    while (rs.next()) {
+                        LocalDateTime originaltimestamp = LocalDateTime.parse(rs.getString("timestamp"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        LocalDate date = originaltimestamp.toLocalDate();
+                        
+                        do {
+                            punches.addAll(punchDAO.list(badge, current));
+                            current.plusDays(1);
+                        } while (!current.isAfter(end));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    throw new DAOException(e.getMessage());
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new DAOException(e.getMessage());
+                }
+            }
+        }
         return punches;
     }
-}
+        
+
 class sortDates implements Comparator<Punch> {
 
     @Override

@@ -49,7 +49,7 @@ public class Shift {
     public LocalDate getBeginDate() {return beginDate;}
     
     public LocalDate getEndDate() {return endDate;}
-
+    
     public int getLunchDuration() {return lunchDuration;}
 
     public int getShiftDuration() {return shiftDuration;}
