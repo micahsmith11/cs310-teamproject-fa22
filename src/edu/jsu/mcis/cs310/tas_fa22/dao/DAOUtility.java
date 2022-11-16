@@ -108,6 +108,7 @@ public final class DAOUtility {
          return json;
     }    
 
+
     
        public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
        int scheduledMinutes =  s.getShiftDuration() * 5;
