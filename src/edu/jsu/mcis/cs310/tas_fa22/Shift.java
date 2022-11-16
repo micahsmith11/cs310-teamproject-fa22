@@ -19,8 +19,8 @@ public class Shift {
         this.dockpenalty = Integer.parseInt(map.get("dockpenalty"));
         this.lunchstart = LocalTime.parse(map.get("lunchstart"));
         this.lunchstop = LocalTime.parse(map.get("lunchstop"));
-        this.beginDate = LocalDate.parse(map.get("begin"));
-        this.endDate = LocalDate.parse(map.get("end"));
+       // this.beginDate = LocalDate.parse(map.get("begin"));
+       // this.endDate = LocalDate.parse(map.get("end"));
         this.lunchthreshold = Integer.parseInt(map.get("lunchthreshold"));
         this.lunchDuration = (int)Duration.between(this.lunchstart, this.lunchstop).toMinutes();
         this.shiftDuration = (int)Duration.between(this.shiftstart, this.shiftstop).toMinutes();

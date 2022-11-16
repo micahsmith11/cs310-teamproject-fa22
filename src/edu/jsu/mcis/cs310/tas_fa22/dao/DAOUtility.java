@@ -17,73 +17,94 @@ import org.json.simple.*;
 public final class DAOUtility {
     
         public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift s) {
-        int minutes = 0;
+        
+        int m = 0;
         int startHours = 0;
         int stopHours = 0;
         int startMinutes = 0;
         int stopMinutes = 0;
         int calculations = 0;
-        int totalMinutesWorked = 0;
         int totalWithLunch = 0;
         int lunchDuration = s.getLunchDuration();
         
         LocalDateTime punches;
         
         boolean pair = false;
+        boolean currentDay = false;
+        int weekTotal = 0;
         
-        
-       for (Punch p : dailypunchlist){
-           if (p.getPunchtype() == PunchType.CLOCK_IN || p.getPunchtype() == PunchType.CLOCK_OUT){
-               if (p.getPunchtype() == PunchType.CLOCK_IN){
+       
+        for (Punch p : dailypunchlist){
+            if (p.getPunchtype() == EventType.CLOCK_IN || 
+                    p.getPunchtype() == EventType.CLOCK_OUT){
+                }
+                if (p.getPunchtype() == EventType.CLOCK_IN){
                    pair = false;
-               }
-                if (p.getPunchtype() == PunchType.CLOCK_OUT){
+                }
+                
+                if (p.getPunchtype() == EventType.CLOCK_OUT){
                    pair = true; 
                 }
-           }
+           
            
            if (pair == false) {
                punches = p.getAdjustedtimestamp();
                startHours = punches.getHour();
                startMinutes = punches.getMinute();
            }
+           
            else if (pair){ 
                 
-                punches = p.getAdjustedtimestamp();
-                stopHours = punches.getHour();
-                stopMinutes = punches.getMinute();
-                totalWithLunch = ((stopHours - startHours) * 60)
-                        + (stopMinutes - startMinutes);
-                
-                if (totalWithLunch > s.getLunchthreshold()){
-                    calculations = totalWithLunch - lunchDuration;
-                    totalMinutesWorked = totalMinutesWorked + calculations;
-                }
-                
-                else if (totalWithLunch <= s.getLunchthreshold()){
-                    calculations = ((stopHours - startHours) * 60)
+               currentDay = true;
+               if(currentDay) {
+                   
+
+                    punches = p.getAdjustedtimestamp();
+                    stopHours = punches.getHour();
+                    stopMinutes = punches.getMinute();
+                    totalWithLunch = ((stopHours - startHours) * 60)
                             + (stopMinutes - startMinutes);
-                    totalMinutesWorked = totalMinutesWorked + calculations; 
+
+                    if (totalWithLunch > s.getLunchthreshold()){
+                        calculations = totalWithLunch - lunchDuration;
+                        m = m + calculations;
+                    }
+
+                    else if (totalWithLunch <= s.getLunchthreshold()){
+                        calculations = ((stopHours - startHours) * 60)
+                                + (stopMinutes - startMinutes);
+                        m = m + calculations; 
+                    }
+                    weekTotal = m + weekTotal;
                 }
-        
-    }   
-    return totalMinutesWorked;    
-}
-       }
+           }
+        }  
+    return m;
+    }
+    
        public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
        int scheduledMinutes =  s.getShiftDuration() * 5;
        LocalTime shiftStart = s.getShiftstart();
        LocalTime shiftStop = s.getShiftstop();
        LocalTime lunchStop = s.getLunchstop();
        LocalTime lunchStart = s.getLunchstart();
-       
-       double percentage = 0.25;
-       /*
-        for(int i = 0; i < punchlist.size(); i++) {
-            
-            if(punchlist.get(i). == )
+       int weekTotal = 0;
+       double difference = 0;
+       double percentage = 0.00;
+       ArrayList<Punch> current = new ArrayList<>(); 
+       weekTotal = calculateTotalMinutes(punchlist, s);
+       difference = (scheduledMinutes - weekTotal) / scheduledMinutes;
+       percentage = difference * 100;
+       /* 
+       for(int i = 0; i < punchlist.size(); i++) {
+           if(punchlist.get(i).getPunchtype() == EventType.CLOCK_OUT && punchlist.get(i).getAdjustedtimestamp(). )
+             
+            if(punchlist.get(i).getAdjustedtimestamp().getDayOfWeek() == (punchlist.get(i+1).getAdjustedtimestamp().getDayOfWeek())) {
+                current.add(i);
+                
+            }
         }
        */
        return percentage;
     }
-}
+}    
