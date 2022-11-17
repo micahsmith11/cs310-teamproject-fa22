@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 public class AbsenteeismDAO {
    
-    private static final String QUERY_FIND = "SELECT * FROM absenteeism WHERE employee = ? AND payperiod = ?";
-    private static final String QUERY_CREATE = "INSERT INTO absenteeism (employee, payperiod, percentage) VALUES (?, ?, ?)";
+    private static final String QUERY_FIND = "SELECT * FROM absenteeism WHERE employeeid = ? AND payperiod = ?";
+    private static final String QUERY_CREATE = "INSERT INTO absenteeism (employeeid, payperiod, percentage) VALUES (?, ?, ?)";
     private static final String QUERY_UPDATE = "UPDATE absenteeism SET employeeid = ? AND payperiod = ? AND percentage = ?";
     private final DAOFactory daoFactory;
 
@@ -78,9 +78,10 @@ public class AbsenteeismDAO {
     public  Absenteeism create(Absenteeism absenteeism) {
         
         PreparedStatement ps = null;
+        //int employeeid = absenteeism.getEmployee().getId();
+        AbsenteeismDAO absenteeismDAO = new AbsenteeismDAO(daoFactory);
         
-        
-        if(absenteeism == null) {
+        if(absenteeismDAO.find(absenteeism.getEmployee(), absenteeism.getPayPeriod()) == null) {
             
              try {
 
@@ -88,11 +89,13 @@ public class AbsenteeismDAO {
                 Connection conn = daoFactory.getConnection();
 
                 if (conn.isValid(0)) {
-                    ps = conn.prepareStatement(QUERY_CREATE);
+                    ps = conn.prepareStatement(QUERY_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
                     ps.setInt(1, absenteeism.getEmployee().getId());
                     ps.setObject(2, absenteeism.getPayPeriod());
                     ps.setDouble(3, absenteeism.getPercentage());
                 
+                    //boolean hasresults = ps.execute();
+                    
                     int update = ps.executeUpdate();
                 
                     if (update == 1) {
