@@ -6,6 +6,7 @@ import java.util.*;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import org.json.simple.*;
+import java.text.DecimalFormat;
 
 /**
  * 
@@ -30,6 +31,7 @@ public final class DAOUtility {
         LocalDateTime punches;
         
         boolean pair = false;
+        boolean currentDay = false;
         
        
         for (Punch p : dailypunchlist){
@@ -38,6 +40,7 @@ public final class DAOUtility {
                 }
                 if (p.getPunchtype() == EventType.CLOCK_IN){
                    pair = false;
+                   
                 }
                 
                 if (p.getPunchtype() == EventType.CLOCK_OUT){
@@ -53,23 +56,28 @@ public final class DAOUtility {
            
            else if (pair){ 
                 
-                punches = p.getAdjustedtimestamp();
-                stopHours = punches.getHour();
-                stopMinutes = punches.getMinute();
-                totalWithLunch = ((stopHours - startHours) * 60)
-                        + (stopMinutes - startMinutes);
-                
-                if (totalWithLunch > s.getLunchthreshold()){
-                    calculations = totalWithLunch - lunchDuration;
-                    m = m + calculations;
-                }
-                
-                else if (totalWithLunch <= s.getLunchthreshold()){
-                    calculations = ((stopHours - startHours) * 60)
+               currentDay = true;
+               if(currentDay) {
+                   
+
+                    punches = p.getAdjustedtimestamp();
+                    stopHours = punches.getHour();
+                    stopMinutes = punches.getMinute();
+                    totalWithLunch = ((stopHours - startHours) * 60)
                             + (stopMinutes - startMinutes);
-                    m = m + calculations; 
+
+                    if (totalWithLunch > s.getLunchthreshold()){
+                        calculations = totalWithLunch - lunchDuration;
+                        m = m + calculations;
+                    }
+
+                    else if (totalWithLunch <= s.getLunchthreshold()){
+                        calculations = ((stopHours - startHours) * 60)
+                                + (stopMinutes - startMinutes);
+                        m = m + calculations; 
+                    }
                 }
-            }
+           }
         }  
     return m;
     }
@@ -99,4 +107,23 @@ public final class DAOUtility {
         String json = JSONValue.toJSONString(list);
          return json;
     }    
-}
+
+
+    
+       public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
+       int shiftDuration =  s.getShiftDuration() * 5;
+       int lunchDuration = s.getLunchDuration() * 5;
+       float scheduledMinutes = shiftDuration - lunchDuration;
+       int weekTotal = 0;
+       float difference;
+       float ratio;
+       double percentage;
+       
+       weekTotal = calculateTotalMinutes(punchlist, s);
+       difference = (scheduledMinutes - weekTotal);
+       ratio = (difference / scheduledMinutes) * 100;
+       percentage = ratio;
+      
+       return percentage;
+    }
+}    

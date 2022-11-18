@@ -1,15 +1,19 @@
 
 package edu.jsu.mcis.cs310.tas_fa22;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.DayOfWeek;
+import java.time.temporal.TemporalAdjusters;
 
 public class Absenteeism {
    private final Employee employee;
-   private final LocalDate payPeriodStart;
-   private final float percentage; 
+   private final LocalDate payPeriod;
+   private final double percentage; 
    
-   public Absenteeism (Employee employee, LocalDate payPeriodStart, Float percentage){
+   public Absenteeism (Employee employee, LocalDate payPeriod, double percentage){
        this.employee = employee;
-       this.payPeriodStart = payPeriodStart;
+       this.payPeriod = payPeriod;
        this.percentage = percentage;
    }
 
@@ -17,20 +21,23 @@ public class Absenteeism {
         return employee;
     }
 
-    public LocalDate getPayPeriodStart() {
-        return payPeriodStart;
+    public LocalDate getPayPeriod() {
+        return payPeriod;
     }
 
-    public float getPercentage() {
+    public double getPercentage() {
         return percentage;
     }
    
-    public String ToString() {
+    @Override
+    public String toString() {
         StringBuilder s = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DecimalFormat df = new DecimalFormat("0.00");
         
-        s.append('#').append(employee.getBadge()).append(' ');
-        s.append("Pay Period Starting ").append(payPeriodStart).append("): ");
-        s.append(percentage).append('%');
+        s.append('#').append(employee.getBadge().getId()).append(' ');
+        s.append("(Pay Period Starting ").append(payPeriod.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY)).format(formatter)).append("): ");
+        s.append(df.format((percentage))).append('%');
         
         return s.toString();
     }

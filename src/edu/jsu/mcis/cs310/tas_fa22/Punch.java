@@ -287,6 +287,11 @@ public class Punch {
         return adjustmenttype;
     }
     
+    @Override
+    public String toString() {
+        return printOriginal();
+    }
+    
     public String printOriginal() {
         
         StringBuilder s = new StringBuilder();
