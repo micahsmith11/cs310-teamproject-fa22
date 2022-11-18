@@ -160,4 +160,97 @@ public class AbsenteeismTest {
         
     }
     
+    @Test
+    public void testAbsenteeismShift1Tuesday() {
+        
+        AbsenteeismDAO absenteeismDAO = daoFactory.getAbsenteeismDAO();
+        EmployeeDAO employeeDAO = daoFactory.getEmployeeDAO();
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+		
+        /* Get Punch/Employee Objects */
+        
+        Punch p = punchDAO.find(2063);
+        Employee e = employeeDAO.find(p.getBadge());
+        Shift s = e.getShift();
+        Badge b = e.getBadge();
+        
+        /* Get Pay Period Punch List */
+        
+        LocalDate ts = p.getOriginaltimestamp().toLocalDate();
+        LocalDate begin = ts.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+        LocalDate end = begin.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+        
+        ArrayList<Punch> punchlist = punchDAO.list(b, begin, end);
+        
+        /* Adjust Punch List */
+        
+        for (Punch punch : punchlist) {
+            punch.adjust(s);
+        }
+        
+        /* Compute Pay Period Total Absenteeism */
+        
+        double percentage = DAOUtility.calculateAbsenteeism(punchlist, s);
+        
+        /* Insert Absenteeism Into Database */
+        
+        Absenteeism a1 = new Absenteeism(e, ts, percentage);
+        absenteeismDAO.create(a1);
+        
+        /* Retrieve Absenteeism From Database */
+        
+        Absenteeism a2 = absenteeismDAO.find(e, ts);
+        
+        /* Compare to Expected Value */
+        
+        assertEquals("#08D745A6 (Pay Period Starting 08-19-2018): -42.50%", a2.toString());
+        
+    }
+    
+    @Test
+    public void testAbsenteeismShift2Weekday() {
+        
+        AbsenteeismDAO absenteeismDAO = daoFactory.getAbsenteeismDAO();
+        EmployeeDAO employeeDAO = daoFactory.getEmployeeDAO();
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+
+        /* Get Punch/Employee Objects */
+        
+        Punch p = punchDAO.find(2077);
+        Employee e = employeeDAO.find(p.getBadge());
+        Shift s = e.getShift();
+        Badge b = e.getBadge();
+        
+        /* Get Pay Period Punch List */
+        
+        LocalDate ts = p.getOriginaltimestamp().toLocalDate();
+        LocalDate begin = ts.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+        LocalDate end = begin.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+        
+        ArrayList<Punch> punchlist = punchDAO.list(b, begin, end);
+        
+        /* Adjust Punch List */
+        
+        for (Punch punch : punchlist) {
+            punch.adjust(s);
+        }
+        
+        /* Compute Pay Period Total Absenteeism */
+        
+        double percentage = DAOUtility.calculateAbsenteeism(punchlist, s);
+        
+        /* Insert Absenteeism Into Database */
+        
+        Absenteeism a1 = new Absenteeism(e, ts, percentage);
+        absenteeismDAO.create(a1);
+        
+        /* Retrieve Absenteeism From Database */
+        
+        Absenteeism a2 = absenteeismDAO.find(e, ts);
+        
+        /* Compare to Expected Value */
+        
+        assertEquals("#E06BE060 (Pay Period Starting 08-19-2018): -10.00%", a2.toString());
+        
+    }
 }

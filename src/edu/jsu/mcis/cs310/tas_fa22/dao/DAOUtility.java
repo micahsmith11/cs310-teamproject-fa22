@@ -6,6 +6,7 @@ import java.util.*;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import org.json.simple.*;
+import java.text.DecimalFormat;
 
 /**
  * 
@@ -31,7 +32,6 @@ public final class DAOUtility {
         
         boolean pair = false;
         boolean currentDay = false;
-        int weekTotal = 0;
         
        
         for (Punch p : dailypunchlist){
@@ -40,6 +40,7 @@ public final class DAOUtility {
                 }
                 if (p.getPunchtype() == EventType.CLOCK_IN){
                    pair = false;
+                   
                 }
                 
                 if (p.getPunchtype() == EventType.CLOCK_OUT){
@@ -75,7 +76,6 @@ public final class DAOUtility {
                                 + (stopMinutes - startMinutes);
                         m = m + calculations; 
                     }
-                    weekTotal = m + weekTotal;
                 }
            }
         }  
@@ -111,28 +111,19 @@ public final class DAOUtility {
 
     
        public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
-       int scheduledMinutes =  s.getShiftDuration() * 5;
-       LocalTime shiftStart = s.getShiftstart();
-       LocalTime shiftStop = s.getShiftstop();
-       LocalTime lunchStop = s.getLunchstop();
-       LocalTime lunchStart = s.getLunchstart();
+       int shiftDuration =  s.getShiftDuration() * 5;
+       int lunchDuration = s.getLunchDuration() * 5;
+       float scheduledMinutes = shiftDuration - lunchDuration;
        int weekTotal = 0;
-       double difference = 0;
-       double percentage = 0.00;
-       ArrayList<Punch> current = new ArrayList<>(); 
+       float difference;
+       float ratio;
+       double percentage;
+       
        weekTotal = calculateTotalMinutes(punchlist, s);
-       difference = (scheduledMinutes - weekTotal) / scheduledMinutes;
-       percentage = difference * 100;
-       /* 
-       for(int i = 0; i < punchlist.size(); i++) {
-           if(punchlist.get(i).getPunchtype() == EventType.CLOCK_OUT && punchlist.get(i).getAdjustedtimestamp(). )
-             
-            if(punchlist.get(i).getAdjustedtimestamp().getDayOfWeek() == (punchlist.get(i+1).getAdjustedtimestamp().getDayOfWeek())) {
-                current.add(i);
-                
-            }
-        }
-       */
+       difference = (scheduledMinutes - weekTotal);
+       ratio = (difference / scheduledMinutes) * 100;
+       percentage = ratio;
+      
        return percentage;
     }
 }    
