@@ -221,9 +221,9 @@ public class PunchDAO {
 
 class sortDates implements Comparator<Punch> {
 
-    @Override
-    public int compare(Punch p1, Punch p2) {
-        return p1.getOriginaltimestamp().compareTo(p2.getOriginaltimestamp());
+        @Override
+        public int compare(Punch p1, Punch p2) {
+            return p1.getOriginaltimestamp().compareTo(p2.getOriginaltimestamp());
+        }
     }
-}
 }
