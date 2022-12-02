@@ -79,4 +79,20 @@ public class EmployeeFindTest {
 
     }
     
+    @Test
+    public void testFindEmployee5() {
+        
+        EmployeeDAO employeeDAO = daoFactory.getEmployeeDAO();
+        BadgeDAO badgeDAO = daoFactory.getBadgeDAO();
+
+        /* Retrieve Employee from Database (by badge) */
+
+        Badge b = badgeDAO.find("7CB9642F");
+        Employee e5 = employeeDAO.find(b);
+
+        /* Compare to Expected Values */
+        
+        assertEquals("ID #53: Treat, Scotty L (#7CB9642F), Type: Temporary / Part-Time, Department: Grinding, Active: 09/22/2015", e5.toString());
+
+    }
 }
