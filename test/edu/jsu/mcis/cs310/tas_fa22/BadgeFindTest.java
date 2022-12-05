@@ -81,7 +81,7 @@ public class BadgeFindTest {
 
         /* Retrieve Badges from Database */
 
-        Badge b5 = badgeDAO.find("");
+        Badge b5 = badgeDAO.find("B6902696");
 
         /* Compare to Expected Values */
         
