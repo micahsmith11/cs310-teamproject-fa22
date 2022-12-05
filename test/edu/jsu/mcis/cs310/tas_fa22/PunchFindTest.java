@@ -95,10 +95,10 @@ public class PunchFindTest {
 
         /* Compare to Expected Values */
 
-        assertEquals("#DFDFE648 TIME IN: FRI 08/03/2018 06:54:20", p16.printOriginal());
-        assertEquals("#CF697DE6 TIME OUT: FRI 08/03/2018 15:31:43", p17.printOriginal());
-        assertEquals("#CB99D1E8 TIME OUT: THUR 08/16/2018 15:33:51", p18.printOriginal());
-        assertEquals("#398B1563 TIME IN: MON 08/21/2018 06:48:23", p19.printOriginal());
+        assertEquals("#DFDFE648 CLOCK IN: FRI 08/03/2018 06:54:20", p16.printOriginal());
+        assertEquals("#CF697DE6 CLOCK OUT: FRI 08/03/2018 15:31:43", p17.printOriginal());
+        assertEquals("#CB99D1E8 CLOCK OUT: THU 08/16/2018 15:33:51", p18.printOriginal());
+        assertEquals("#398B1563 CLOCK IN: TUE 08/21/2018 06:48:23", p19.printOriginal());
         
     }
     
@@ -116,10 +116,10 @@ public class PunchFindTest {
 
         /* Compare to Expected Values */
 
-        assertEquals("#B09A75D7 TIME OUT: WED 08/01/2018 15:31:49", p20.printOriginal());
-        assertEquals("#76118CDC TIME OUT: MON 08/06/2018 15:33:09", p21.printOriginal());
-        assertEquals("#CB99D1E8 TIME IN: MON 08/13/2018 07:00:25", p22.printOriginal());
-        assertEquals("#BE51FA92 TIME OUT: FRI 08/17/2018 15:32:54", p23.printOriginal());
+        assertEquals("#B09A75D7 CLOCK OUT: WED 08/01/2018 15:31:49", p20.printOriginal());
+        assertEquals("#76118CDC CLOCK OUT: MON 08/06/2018 15:33:09", p21.printOriginal());
+        assertEquals("#CB99D1E8 CLOCK IN: MON 08/13/2018 07:00:25", p22.printOriginal());
+        assertEquals("#BE51FA92 CLOCK OUT: FRI 08/17/2018 15:32:54", p23.printOriginal());
     }
     
     

@@ -48,15 +48,15 @@ public class ShiftFindTest {
 
         /* Retrieve Shift Rulesets from Database */
         
-        Shift s1 = shiftDAO.find(b1);
-        Shift s2 = shiftDAO.find(b2);
-        Shift s3 = shiftDAO.find(b3);
+        Shift s4 = shiftDAO.find(b1);
+        Shift s5 = shiftDAO.find(b2);
+        Shift s6 = shiftDAO.find(b3);
 
         /* Compare to Expected Values */
         
-        assertEquals("Shift 1: 07:00 - 15:30 (510 minutes); Lunch: 12:00 - 12:30 (30 minutes)", s1.toString());
-        assertEquals("Shift 2: 12:00 - 20:30 (510 minutes); Lunch: 16:30 - 17:00 (30 minutes)", s2.toString());
-        assertEquals("Shift 1 Early Lunch: 07:00 - 15:30 (510 minutes); Lunch: 11:30 - 12:00 (30 minutes)", s3.toString());
+        assertEquals("Shift 1: 07:00 - 15:30 (510 minutes); Lunch: 12:00 - 12:30 (30 minutes)", s4.toString());
+        assertEquals("Shift 2: 12:00 - 20:30 (510 minutes); Lunch: 16:30 - 17:00 (30 minutes)", s5.toString());
+        assertEquals("Shift 1 Early Lunch: 07:00 - 15:30 (510 minutes); Lunch: 11:30 - 12:00 (30 minutes)", s6.toString());
 
     }
     
