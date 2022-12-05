@@ -81,4 +81,46 @@ public class PunchFindTest {
         assertEquals("#C457EFF7 CLOCK IN: MON 08/13/2018 06:51:15", p15.printOriginal());
     }
     
+    @Test
+    public void testFindPunches4() {
+
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+
+        /* Retrieve Punches from Database */
+
+        Punch p16 = punchDAO.find(393);
+        Punch p17 = punchDAO.find(455);
+        Punch p18 = punchDAO.find(1645);
+        Punch p19 = punchDAO.find(2022);
+
+        /* Compare to Expected Values */
+
+        assertEquals("#DFDFE648 TIME IN: FRI 08/03/2018 06:54:20", p16.printOriginal());
+        assertEquals("#CF697DE6 TIME OUT: FRI 08/03/2018 15:31:43", p17.printOriginal());
+        assertEquals("#CB99D1E8 TIME OUT: THUR 08/16/2018 15:33:51", p18.printOriginal());
+        assertEquals("#398B1563 TIME IN: MON 08/21/2018 06:48:23", p19.printOriginal());
+        
+    }
+    
+    @Test
+    public void testFindPunches5() {
+
+        PunchDAO punchDAO = daoFactory.getPunchDAO();
+
+        /* Retrieve Punches from Database */
+
+        Punch p20 = punchDAO.find(212);
+        Punch p21 = punchDAO.find(575);
+        Punch p22 = punchDAO.find(1212);
+        Punch p23 = punchDAO.find(1776);
+
+        /* Compare to Expected Values */
+
+        assertEquals("#B09A75D7 TIME OUT: WED 08/01/2018 15:31:49", p20.printOriginal());
+        assertEquals("#76118CDC TIME OUT: MON 08/06/2018 15:33:09", p21.printOriginal());
+        assertEquals("#CB99D1E8 TIME IN: MON 08/13/2018 07:00:25", p22.printOriginal());
+        assertEquals("#BE51FA92 TIME OUT: FRI 08/17/2018 15:32:54", p23.printOriginal());
+    }
+    
+    
 }
