@@ -74,5 +74,16 @@ public class BadgeDAO {
         return badge;
 
     }
-
+    
+    public void create(Badge b) {
+        Badge badge = null; 
+        this.create(b);
+        
+    }
+    
+    public void delete(String id) {
+        
+        this.delete(id);
+        
+    }
 }

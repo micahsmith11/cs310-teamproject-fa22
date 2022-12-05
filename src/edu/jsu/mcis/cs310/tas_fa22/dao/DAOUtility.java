@@ -106,8 +106,43 @@ public final class DAOUtility {
         
         String json = JSONValue.toJSONString(list);
          return json;
-    }    
-
+    }
+        
+       public static String getPunchListPlusTotalsAsJSON(ArrayList<Punch> punchlist, Shift shift){
+           
+           ArrayList<HashMap<String, String>> jsonData = new ArrayList<HashMap<String, String>>();
+           
+           String jsonString;
+           String absenteeism = String.format("%.2f%%", calculateAbsenteeism(punchlist, shift)*100);
+           String totalMinutes = String.valueOf(calculateTotalMinutes(punchlist, shift));
+           JSONObject json = new JSONObject();
+           JSONArray punches = new JSONArray();
+           
+           for(int i = 0; i < punchlist.size(); i++){
+               
+            HashMap<String, String> punch = new HashMap<String, String>();
+            
+            punch.put("originaltimestamp", punchlist.get(i).getOriginaltimestamp().format(DateTimeFormatter.ofPattern("E MM/dd/yyyy HH:mm:ss")).toUpperCase());
+            punch.put("badgeid", punchlist.get(i).getBadge().getId());
+            punch.put("adjustedtimestamp", punchlist.get(i).getAdjustedtimestamp().format(DateTimeFormatter.ofPattern("E MM/dd/yyyy HH:mm:ss")).toUpperCase());
+            punch.put("adjustmenttype", punchlist.get(i).getAdjustmenttype().toString());
+            punch.put("terminalid", Integer.toString(punchlist.get(i).getTerminalid()));
+            punch.put("id", Integer.toString(punchlist.get(i).getId()));
+            punch.put("punchtype", punchlist.get(i).getPunchtype().toString());
+//            punch.put("absenteeism", punchlist.get(i).toString());
+//            punch.put("totalminutes", punchlist.get(i).toString());
+            
+            jsonData.add(punch);
+           }
+           
+         json.put("absenteeism", absenteeism);
+         json.put("totalMinutes", totalMinutes);
+         json.put("punchlist", punches);
+         
+         jsonString = JSONValue.toJSONString(jsonData);
+         return jsonString;
+       }
+        
 
     
        public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift s) {
