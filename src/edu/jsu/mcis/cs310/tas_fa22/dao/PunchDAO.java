@@ -55,7 +55,7 @@ public class PunchDAO {
 
                         int terminalid = rs.getInt("terminalid");
                         Badge badge = badgeDAO.find(rs.getString("badgeid"));
-                        LocalDateTime originaltimestamp = LocalDateTime.parse(rs.getString("timestamp"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        LocalDateTime originaltimestamp = LocalDateTime.parse(rs.getString("timestamp"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).withNano(0);
                         EventType punchtype = EventType.values()[rs.getInt("eventtypeid")];
 
                         punch = new Punch(id, terminalid, badge, originaltimestamp, punchtype);
@@ -107,7 +107,7 @@ public class PunchDAO {
                     ps = conn.prepareStatement(QUERY_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
                     ps.setInt(1, punch.getTerminalid()); // terminalid
                     ps.setString(2, punch.getBadge().getId()); // badgeid
-                    ps.setString(3, punch.getOriginaltimestamp().toString()); // timestamp
+                    ps.setString(3, punch.getOriginaltimestamp().withNano(0).toString()); // timestamp
                     ps.setInt(4, punch.getPunchtype().ordinal()); // eventtype
 
                     update = ps.executeUpdate();

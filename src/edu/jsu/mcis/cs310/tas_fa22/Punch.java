@@ -23,7 +23,7 @@ public class Punch {
         this.badge = badge;
         this.punchtype = punchtype;
         this.id = null;
-        this.originaltimestamp = LocalDateTime.now();
+        this.originaltimestamp = LocalDateTime.now().withNano(0);
     }
     
     //Constructor for Existing Punches
@@ -33,7 +33,7 @@ public class Punch {
         this.terminalid = terminalid;
         this.badge = badge;
         this.punchtype = punchtype;
-        this.originaltimestamp = originaltimestamp;
+        this.originaltimestamp = originaltimestamp.withNano(0);
     }
     
     //Getter Methods
