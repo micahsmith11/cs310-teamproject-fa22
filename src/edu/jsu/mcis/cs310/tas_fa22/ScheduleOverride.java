@@ -2,23 +2,25 @@
 package edu.jsu.mcis.cs310.tas_fa22;
 import java.time.LocalDateTime;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.HashMap;
 
 
 
 
 public class ScheduleOverride {
+    private int id;
     private LocalDateTime start, end;
     private DayOfWeek day;
     private DailySchedule dailyschedule;
     private Badge badge;
     
     public ScheduleOverride(HashMap<String, Object> map) {
-        this.start = LocalDateTime.parse(map.get("start"));
+        this.id = Integer.parseInt((map.get("id")));
+        this.start = LocalDateTime.parse((map.get("start")));
         this.end = LocalDateTime.parse((map.get("end")));
-        this.dailyschedule = (DailySchedule)map.get("dailyschedule");
         this.badge = (Badge)map.get("badge");
+        this.day = Integer.parseInt((map.get("day")));
+        this.dailyschedule = (DailySchedule)map.get("dailyschedule");
         
     }
 
