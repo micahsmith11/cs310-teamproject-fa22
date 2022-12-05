@@ -85,7 +85,7 @@ public class BadgeFindTest {
 
         /* Compare to Expected Values */
         
-        assertEquals("#7CB9642F (Treat, Scotty L)", b5.toString());
+        assertEquals("#B6902696 (Wright, Nadine P)", b5.toString());
 
     }
 }
