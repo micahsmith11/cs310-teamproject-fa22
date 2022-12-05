@@ -3,6 +3,7 @@ import java.util.HashMap;
 import edu.jsu.mcis.cs310.tas_fa22.*;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.DayOfWeek;
 
 public class ShiftDAO {
 
@@ -141,6 +142,13 @@ public class ShiftDAO {
       public Shift find(Badge badge, LocalDate localdate){
         Shift shift = null;
         DailyScheduleDAO defaultschedule = null;
+        ScheduleOverrideDAO scheduleoverrideDAO = null;
+        int day;
+        ScheduleOverride scheduleoverride;
+        HashMap<Integer, DailySchedule> schedule2;
+        AbsenteeismDAO absenteeismDAO;
+        DailySchedule schedule;
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -161,9 +169,24 @@ public class ShiftDAO {
                         map.put("id", rs.getString("id"));
                         map.put("description", rs.getString("description"));
                         map.put("defaultschedule", dailyscheduleDAO.find(rs.getInt("dailyscheduleid")));
+                        
+                       
                     }
                     //create a shift class with this hash map
                     shift = new Shift(map);
+                    //scheduleoverride = scheduleoverrideDAO.find(localdate);
+                    //day = scheduleoverride.getDay().getValue();
+                    //schedule = scheduleoverride.getDailyschedule();
+                    /*
+                    //if(scheduleoverride.getEnd().isBefore()) {
+                        
+                    }
+                    
+                    scheduleoverride = scheduleoverrideDAO.find(localdate);
+                    day = scheduleoverride.getDay();
+                    schedule = shift.getDailySchedule(day);
+                   // schedule.
+                    */
                 }
                 
             }

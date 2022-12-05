@@ -17,11 +17,14 @@ public class Shift {
         this.id = Integer.parseInt((String)map.get("id"));
         this.description = (String)map.get("description");
         this.defaultschedule = (DailySchedule)map.get("defaultschedule");
+       /*
         schedule.put(DayOfWeek.MONDAY.getValue(), defaultschedule);
         schedule.put(DayOfWeek.TUESDAY.getValue(), defaultschedule);
         schedule.put(DayOfWeek.WEDNESDAY.getValue(), defaultschedule);
         schedule.put(DayOfWeek.THURSDAY.getValue(), defaultschedule);
         schedule.put(DayOfWeek.FRIDAY.getValue(), defaultschedule);
+        */
+        this.schedule = (HashMap<Integer, DailySchedule>)map.get("schedule");
         //this.beginDate = LocalDate.parse(map.get("begin"));
         //this.endDate = LocalDate.parse(map.get("end"));
        
@@ -33,9 +36,19 @@ public class Shift {
     }
 
    
-    public HashMap<Integer, DailySchedule> getDailySchedule (DayOfWeek dayofweek) {
+    public DailySchedule getDailySchedule (DayOfWeek dayofweek) {
+        return schedule.getOrDefault(dayofweek, defaultschedule);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public HashMap<Integer, DailySchedule> getSchedule() {
         return schedule;
     }
+    
+    
     
     public int getId() {return id;}
     
