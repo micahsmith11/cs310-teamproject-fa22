@@ -90,17 +90,16 @@ public class PunchFindTest {
 
         Punch p16 = punchDAO.find(393);
         Punch p17 = punchDAO.find(455);
-        Punch p18 = punchDAO.find(717);
-        Punch p19 = punchDAO.find(1189);
-        Punch p20 = punchDAO.find(1181);
+        Punch p18 = punchDAO.find(1645);
+        Punch p19 = punchDAO.find(2022);
 
         /* Compare to Expected Values */
 
         assertEquals("#DFDFE648 TIME IN: FRI 08/03/2018 06:54:20", p16.printOriginal());
         assertEquals("#CF697DE6 TIME OUT: FRI 08/03/2018 15:31:43", p17.printOriginal());
-        assertEquals("#67637925 TIME OUT: TUE 08/07/2018 23:12:34", p18.printOriginal());
-        assertEquals("#E8A58074 CLOCK IN: MON 08/13/2018 06:53:05", p19.printOriginal());
-        assertEquals("#C457EFF7 CLOCK IN: MON 08/13/2018 06:51:15", p20.printOriginal());
+        assertEquals("#CB99D1E8 TIME OUT: THUR 08/16/2018 15:33:51", p18.printOriginal());
+        assertEquals("#398B1563 TIME IN: MON 08/21/2018 06:48:23", p19.printOriginal());
+        
     }
     
 }
